@@ -8,8 +8,8 @@ import {
   red,
   textColor,
 } from '../utils/colors';
-import TextButton from './TextButton';
-import Button from './Button';
+import TextButton from '../components/TextButton';
+import Button from '../components/Button';
 
 const QuizHome = () => {
   return (

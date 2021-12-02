@@ -15,10 +15,10 @@ export const handleAddDeck = title => {
   };
 };
 
-export const handleAddCard = (id, card) => {
+export const handleAddCard = (deckId, card) => {
   return {
     type: ADD_CARD,
-    id,
+    deckId,
     card,
   };
 };

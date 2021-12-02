@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from 'react-native';
 import {black, green, lightGreen, textColor} from '../utils/colors';
-import Button from './Button';
+import Button from '../components/Button';
 
 const AddCard = () => {
   return (

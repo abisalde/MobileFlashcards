@@ -9,8 +9,6 @@ import {HeaderBackButton} from '@react-navigation/stack';
 // Import all Components
 import {purple, white} from '../utils/colors';
 import {FontAwesome, AntDesign} from '@expo/vector-icons';
-import Constants from 'expo-constants';
-
 // Import all Screens/Views
 import DeckList from '../views/DeckList';
 import NewDeck from '../views/NewDeck';
@@ -30,7 +28,7 @@ const AppTabConfigs = {
       if (route.name === 'DeckList') {
         Icon = <AntDesign name="book" size={25} color={color} />;
       } else if (route.name === 'NewDeck') {
-        Icon = <FontAwesome name="plus-square" size={25} color={tintColor} />;
+        Icon = <FontAwesome name="plus-square" size={25} color={color} />;
       }
       return Icon;
     },
@@ -96,9 +94,10 @@ const StackScreenConfigs = {
         height: Constants.statusBarHeight + 10,
       },
       headerTitleStyle: {
-        fontSize: 25,
+        fontSize: 22,
         textAlign: 'center',
       },
+      headerTitleAlign: 'center',
       title: 'Flashcards',
     },
   },
@@ -112,11 +111,12 @@ const StackScreenConfigs = {
         height: Constants.statusBarHeight + 10,
       },
       headerTitleStyle: {
-        fontSize: 25,
+        fontSize: 22,
         textAlign: 'center',
       },
       title: 'Deck',
       headerBackTitle: 'Flashcards',
+      headerTitleAlign: 'center',
       headerBackTitleVisible: false,
       headerLeft: props => (
         <HeaderBackButton
@@ -138,9 +138,10 @@ const StackScreenConfigs = {
         height: Constants.statusBarHeight + 10,
       },
       headerTitleStyle: {
-        fontSize: 25,
+        fontSize: 22,
         textAlign: 'center',
       },
+      headerTitleAlign: 'center',
       title: 'Add Card',
     },
   },
@@ -154,7 +155,7 @@ const StackScreenConfigs = {
         height: Constants.statusBarHeight + 10,
       },
       headerTitleStyle: {
-        fontSize: 25,
+        fontSize: 22,
         textAlign: 'center',
       },
       title: 'New Deck',
@@ -171,9 +172,10 @@ const StackScreenConfigs = {
         height: Constants.statusBarHeight + 10,
       },
       headerTitleStyle: {
-        fontSize: 25,
+        fontSize: 22,
         textAlign: 'center',
       },
+      headerTitleAlign: 'center',
       headerBackTitleVisible: false,
       title: 'Quiz',
     },
