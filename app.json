@@ -3,4 +3,15 @@
   "displayName": "MobileFlashcards",
   "description": "Mobile Card Quiz",
   "slug": "MobileFlashcards",
+  "expo": {
+    "name": "MobileFlashcards",
+    "description": "Mobile Card Quiz app",
+    "owner": "@Abisalde",
+    "slug": "mobile-flashcards",
+    "version": "1.0.0",
+    "icon": "./assets/img/cards.png",
+    "orientation": "portrait",
+    "platforms": ["android", "web"],
+    "assetBundlePatterns": ["**/*"]
+  }
 }
