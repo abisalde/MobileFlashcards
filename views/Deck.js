@@ -1,14 +1,37 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
 import DeckBox from '../components/DeckBox';
 import Button from '../components/Button';
-import {lightGreen, white, black} from '../utils/colors';
+import {lightGreen, black} from '../utils/colors';
 import TextButton from '../components/TextButton';
+import {useSelector} from 'react-redux';
+import {handleRemoveDeck} from '../redux/actions';
+import {removeDeck} from '../utils/API';
+const Deck = ({navigation, route}) => {
+  const decks = useSelector(decks => decks);
 
-const Deck = () => {
+  const title = route.params?.title;
+  const deck = decks[title];
+  const id = title;
+  const questions = deck?.questions;
+
+  const setTitle = title => {
+    navigation.setOptions({title: title});
+  };
+
+  useEffect(() => {
+    setTitle(title);
+  });
+
+  const deleteDeck = id => {
+    handleRemoveDeck(id);
+    removeDeck(id);
+    navigation.navigate('AppHome', {screen: 'DeckList'});
+  };
+
   return (
     <View style={styles.container}>
-      <DeckBox style={styles.deckBox} />
+      <DeckBox style={styles.deckBox} id={id} questions={questions} />
       <View>
         <Button textBtn={{color: black}} onPress={() => alert('Add Card')}>
           Add Card
@@ -19,7 +42,7 @@ const Deck = () => {
           Start Quiz
         </Button>
       </View>
-      <TextButton onPress={() => alert('Reset Deck')}>Delete Deck</TextButton>
+      <TextButton onPress={id => deleteDeck(id)}>Delete Deck</TextButton>
     </View>
   );
 };
@@ -37,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Deck;
+export default React.memo(Deck);

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {
   getDecks,
   getDeck,
@@ -7,6 +7,7 @@ import {
   addCardToDeck,
   clearDecks,
 } from '../utils/API';
+import {FontAwesome} from '@expo/vector-icons';
 
 const Test = () => {
   const [decks, setDecks] = useState({});
@@ -42,7 +43,33 @@ const Test = () => {
 
   return (
     <View>
-      <Text></Text>
+      <Text>
+        {Object.keys(decks).map(deck => {
+          return (
+            <TouchableOpacity
+              key={deck}
+              onPress={() => navigation.navigate('Deck', {deck: deck})}>
+              <Text style={styles.deckTitle}>{deck}</Text>
+              <Text style={styles.cardCount}>
+                {decks[deck].questions.length} cards
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+        {{
+          headerLeft: props => (
+            <Button
+              {...props}
+              color="transparent"
+              icon={<FontAwesome name="arrow-right" size={15} color="white" />}
+              title="Back"
+              onPress={() => {
+                navigation.navigate('AppHome', {screen: 'DeckList'});
+              }}
+            />
+          ),
+        }}
+      </Text>
     </View>
   );
 };

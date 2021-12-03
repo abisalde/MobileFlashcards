@@ -1,7 +1,7 @@
 import {getDecks} from '../../utils/API';
 import {GET_DECKS, ADD_DECK, ADD_CARD, REMOVE_DECK} from './types';
 
-export const handleGetDecks = () => {
+export const handleGetDecks = decks => {
   return {
     type: GET_DECKS,
     decks,

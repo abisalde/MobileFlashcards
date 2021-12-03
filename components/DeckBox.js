@@ -2,18 +2,35 @@ import React from 'react';
 import {View, Text, StyleSheet, Platform, TouchableOpacity} from 'react-native';
 import {white, textColor, gray} from '../utils/colors';
 
-const DeckBox = ({style = {}}) => {
+const DeckBox = ({style = {}, id, questions, onPress}) => {
+  if (id === undefined) {
+    return (
+      <View style={[styles.container, style]}>
+        <Text style={styles.cardTitle}>No Deck Selected</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.deckBox, style]}>
-      <TouchableOpacity>
-        <Text style={styles.cardTitle}>Redux</Text>
-        <Text style={styles.cardSubtitle}>2 cards</Text>
+      <TouchableOpacity onPress={onPress}>
+        <Text style={styles.cardTitle}>{id}</Text>
+        <Text style={styles.cardSubtitle}>
+          {' '}
+          {questions && questions.length}{' '}
+          {questions.length > 1 ? 'Cards' : 'Card'}
+        </Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   deckBox: {
     backgroundColor: white,
     borderRadius: Platform.OS === 'ios' ? 16 : 2,

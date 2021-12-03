@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     width: 200,
-    height: 50,
     marginLeft: 40,
     marginRight: 40,
     marginTop: 10,
@@ -47,10 +46,9 @@ const styles = StyleSheet.create({
   droidBtn: {
     backgroundColor: white,
     width: 200,
-    height: 50,
     padding: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
     marginTop: 20,
     borderRadius: 5,
     borderColor: black,
@@ -66,6 +64,7 @@ const styles = StyleSheet.create({
   textButton: {
     color: white,
     fontSize: 18,
+    textAlign: 'center',
   },
 });
 

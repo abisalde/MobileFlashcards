@@ -1,14 +1,14 @@
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, Button} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Constants from 'expo-constants';
-import {HeaderBackButton} from '@react-navigation/stack';
 
 // Import all Components
 import {purple, white} from '../utils/colors';
-import {FontAwesome, AntDesign} from '@expo/vector-icons';
+import {FontAwesome, AntDesign, Ionicons} from '@expo/vector-icons';
+
 // Import all Screens/Views
 import DeckList from '../views/DeckList';
 import NewDeck from '../views/NewDeck';
@@ -118,14 +118,6 @@ const StackScreenConfigs = {
       headerBackTitle: 'Flashcards',
       headerTitleAlign: 'center',
       headerBackTitleVisible: false,
-      headerLeft: props => (
-        <HeaderBackButton
-          {...props}
-          onPress={() => {
-            navigation.navigate('AppHome', {screen: 'DeckList'});
-          }}
-        />
-      ),
     }),
   },
   AddCard: {
