@@ -1,13 +1,15 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import DeckBox from '../components/DeckBox';
 import Button from '../components/Button';
 import {lightGreen, black} from '../utils/colors';
 import TextButton from '../components/TextButton';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {handleRemoveDeck} from '../redux/actions';
 import {removeDeck} from '../utils/API';
+
 const Deck = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const decks = useSelector(decks => decks);
 
   const title = route.params?.title;
@@ -24,8 +26,12 @@ const Deck = ({navigation, route}) => {
   });
 
   const deleteDeck = id => {
-    handleRemoveDeck(id);
-    removeDeck(id);
+    new Promise((resolve, reject) => {
+      dispatch(handleRemoveDeck(id));
+      setTimeout(() => resolve('DONE'), 1000);
+    }).then(() => {
+      dispatch(removeDeck(id));
+    });
     navigation.navigate('AppHome', {screen: 'DeckList'});
   };
 
@@ -41,8 +47,9 @@ const Deck = ({navigation, route}) => {
           onPress={() => alert('Start Quiz')}>
           Start Quiz
         </Button>
+        <Text>{JSON.stringify(title)}</Text>
       </View>
-      <TextButton onPress={id => deleteDeck(id)}>Delete Deck</TextButton>
+      <TextButton onPress={() => deleteDeck(title)}>Delete Deck</TextButton>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -10,11 +10,32 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import {black, gray, lightGreen, textColor} from '../utils/colors';
+import {useDispatch} from 'react-redux';
 import Button from '../components/Button';
 import {handleAddDeck} from '../redux/actions';
+import {useNavigation} from '@react-navigation/native';
+import {saveDeckTitle} from '../utils/API';
 
 const NewDeck = () => {
-  const handleSubmit = title => {};
+  const [title, setTitle] = useState('');
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const handleTitleChange = title => {
+    setTitle(title);
+  };
+
+  const handleSubmit = title => {
+    const text = title.trim().split(' ').join('');
+
+    dispatch(handleAddDeck(text))(saveDeckTitle(text));
+
+    navigation.navigate('Deck', {title: text, id: text});
+
+    setTitle('');
+  };
+
+  const disabled = title.length === 0;
 
   return (
     <KeyboardAvoidingView
@@ -30,10 +51,14 @@ const NewDeck = () => {
               style={styles.input}
               placeholder="Deck Title"
               placeholderTextColor={gray}
+              value={title}
+              onChangeText={handleTitleChange}
+              autoFocus={true}
             />
           </View>
           <Button
-            onPress={() => alert('Here is your new deck!')}
+            onPress={() => (title.trim() ? handleSubmit(title) : null)}
+            disabled={disabled}
             btnStyle={{
               backgroundColor: black,
               borderColor: black,

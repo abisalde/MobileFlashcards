@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
   },
   disabledBtn: {
     backgroundColor: lightGray,
-    opacity: 0,
-    borderColor: white,
+    opacity: 1,
+    borderColor: lightGray,
   },
   textButton: {
     color: white,

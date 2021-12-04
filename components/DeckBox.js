@@ -3,10 +3,10 @@ import {View, Text, StyleSheet, Platform, TouchableOpacity} from 'react-native';
 import {white, textColor, gray} from '../utils/colors';
 
 const DeckBox = ({style = {}, id, questions, onPress}) => {
-  if (id === undefined) {
+  if (id === null) {
     return (
       <View style={[styles.container, style]}>
-        <Text style={styles.cardTitle}>No Deck Selected</Text>
+        <Text style={styles.cardTitle}>No deck on the list</Text>
       </View>
     );
   }
@@ -17,8 +17,8 @@ const DeckBox = ({style = {}, id, questions, onPress}) => {
         <Text style={styles.cardTitle}>{id}</Text>
         <Text style={styles.cardSubtitle}>
           {' '}
-          {questions && questions.length}{' '}
-          {questions.length > 1 ? 'Cards' : 'Card'}
+          {questions && questions?.length}{' '}
+          {questions?.length > 1 ? 'Cards' : 'Card'}
         </Text>
       </TouchableOpacity>
     </View>
