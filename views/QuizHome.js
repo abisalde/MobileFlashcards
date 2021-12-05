@@ -86,6 +86,8 @@ const QuizHome = ({route}) => {
   const [showAnswer, setShowAnswer] = useState(true);
   const [nextQuestion, setNextQuestion] = useState(true);
 
+  const onPressHandler = () => {};
+
   return (
     <View style={styles.container}>
       <View>
