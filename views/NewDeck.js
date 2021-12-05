@@ -13,7 +13,7 @@ import {black, gray, lightGreen, textColor} from '../utils/colors';
 import {useDispatch} from 'react-redux';
 import Button from '../components/Button';
 import {handleAddDeck} from '../redux/actions';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 import {saveDeckTitle} from '../utils/API';
 
 const NewDeck = () => {
@@ -28,9 +28,18 @@ const NewDeck = () => {
   const handleSubmit = title => {
     const text = title.trim().split(' ').join('');
 
-    dispatch(handleAddDeck(text))(saveDeckTitle(text));
+    dispatch(handleAddDeck(text));
+    saveDeckTitle(text);
 
-    navigation.navigate('Deck', {title: text, id: text});
+    const resetRoute = CommonActions.reset({
+      index: 1,
+      routes: [
+        {name: 'AppHome'},
+        {name: 'Deck', params: {title: text, id: text}},
+      ],
+    });
+
+    navigation.dispatch(resetRoute);
 
     setTitle('');
   };

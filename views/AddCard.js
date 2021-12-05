@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,33 +9,84 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import {black, green, lightGreen, textColor} from '../utils/colors';
+import {black, green, lightGreen, textColor, red} from '../utils/colors';
 import Button from '../components/Button';
+import {useDispatch} from 'react-redux';
+import {handleAddCard} from '../redux/actions';
+import {addCardToDeck} from '../utils/API';
 
-const AddCard = () => {
+const AddCard = ({navigation, route}) => {
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    const id = route.params?.title;
+    const card = {question, answer};
+
+    if (question.trim() === '' || question.trim().length < 2) {
+      return alert(
+        'Question cannot be empty & Character length must be greater than 2',
+      );
+    } else if (answer.trim() === '' || answer.trim().length < 2) {
+      return alert(
+        'Answer cannot be empty & Character length must be greater than 2',
+      );
+    }
+
+    dispatch(handleAddCard(id, card));
+
+    setQuestion('');
+    setAnswer('');
+    addCardToDeck(id, card);
+    navigation.goBack();
+  };
+
+  const setTitle = id => {
+    navigation.setOptions({title: id});
+  };
+
+  useEffect(() => {
+    setTitle(`Add Card to ${route.params?.title}`);
+  });
+
+  const disabled = !question.trim() || !answer.trim();
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.innerContainer}>
-          <Text style={styles.text}>Add Question and Answer to card</Text>
+          <Text
+            style={
+              styles.text
+            }>{`Add question and answer to ${route.params?.title} deck card`}</Text>
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
               placeholder="Question"
+              name="question"
               autoFocus={true}
               returnKeyType="next"
+              onChangeText={question => setQuestion(question)}
+              value={question}
             />
             <TextInput
               style={styles.input}
               placeholder="Answer"
+              name="answer"
               returnKeyType="done"
+              onChangeText={answer => setAnswer(answer)}
+              value={answer}
+              onSubmitEditing={handleSubmit}
             />
           </View>
           <View style={{alignItems: 'center'}}>
             <Button
-              onPress={() => alert('Submit')}
+              onPress={handleSubmit}
+              text="Submit"
+              disabled={disabled}
               btnStyle={{backgroundColor: green, borderColor: green}}>
               Submit
             </Button>
@@ -63,6 +114,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 35,
+  },
+  error: {
+    color: red,
+    fontSize: 12,
   },
   inputContainer: {
     marginTop: -30,

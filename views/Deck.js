@@ -26,12 +26,10 @@ const Deck = ({navigation, route}) => {
   });
 
   const deleteDeck = id => {
-    new Promise((resolve, reject) => {
-      dispatch(handleRemoveDeck(id));
-      setTimeout(() => resolve('DONE'), 1000);
-    }).then(() => {
-      dispatch(removeDeck(id));
-    });
+    dispatch(handleRemoveDeck(id));
+
+    removeDeck(id);
+
     navigation.navigate('AppHome', {screen: 'DeckList'});
   };
 
@@ -39,15 +37,20 @@ const Deck = ({navigation, route}) => {
     <View style={styles.container}>
       <DeckBox style={styles.deckBox} id={id} questions={questions} />
       <View>
-        <Button textBtn={{color: black}} onPress={() => alert('Add Card')}>
+        <Button
+          textBtn={{color: black}}
+          onPress={() =>
+            navigation.navigate('AddCard', {title: title, id: title})
+          }>
           Add Card
         </Button>
         <Button
           btnStyle={{backgroundColor: black}}
-          onPress={() => alert('Start Quiz')}>
+          onPress={() =>
+            navigation.navigate('QuizHome', {title: title, id: title})
+          }>
           Start Quiz
         </Button>
-        <Text>{JSON.stringify(title)}</Text>
       </View>
       <TextButton onPress={() => deleteDeck(title)}>Delete Deck</TextButton>
     </View>
