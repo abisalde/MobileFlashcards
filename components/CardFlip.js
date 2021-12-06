@@ -26,6 +26,69 @@ const CardFlip = () => {
     transform: [{rotateY: backInterpolate}],
   };
 
+  /*
+  // Animated Flip starts here
+  const animatedValue = new Animated.Value(0);
+  const frontInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['0deg', '180deg'],
+  });
+  const backInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['180deg', '360deg'],
+  });
+  let val = 0;
+
+  // USE EFFECT TO ANIMATE
+  useEffect(() => {
+    animatedValue;
+    animatedValue.addListener(({value}) => {
+      val = value;
+    });
+    frontInterpolate;
+    backInterpolate;
+
+    return () => {
+      animatedValue.removeListener(({value}) => {
+        val = value;
+        frontInterpolate;
+        backInterpolate;
+      });
+    };
+  }, [animatedValue, frontInterpolate, backInterpolate]);
+
+  const frontAnimatedStyle = {
+    transform: [{rotateY: frontInterpolate}],
+  };
+
+  const backAnimatedStyle = {
+    transform: [{rotateY: backInterpolate}],
+  };
+
+  const [buttonText, setButtonText] = useState('Show Answer');
+
+  const FlipCard = () => {
+    if (val >= 90) {
+      Animated.spring(animatedValue, {
+        toValue: 0,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: true,
+      }).start();
+      setButtonText('Show Answer');
+    } else {
+      Animated.spring(animatedValue, {
+        toValue: 180,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: false,
+      }).start();
+      setButtonText('Show Question');
+    }
+  };
+  // Animated Flip ends here
+  */
+
   const FlipCard = () => {
     if (val >= 90) {
       Animated.spring(animatedValue, {

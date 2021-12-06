@@ -6,7 +6,6 @@ export const getDecks = async () => {
   try {
     const decksJSON = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
     if (decksJSON !== null) {
-      console.log('getDecks: ', JSON.parse(decksJSON));
       return JSON.parse(decksJSON);
     } else {
       return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));

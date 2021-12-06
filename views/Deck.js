@@ -52,7 +52,7 @@ const Deck = ({navigation, route}) => {
           Start Quiz
         </Button>
       </View>
-      <TextButton onPress={() => deleteDeck(title)}>Delete Deck</TextButton>
+      <TextButton onPress={() => deleteDeck(id)}>Delete Deck</TextButton>
     </View>
   );
 };

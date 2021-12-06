@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, Button} from 'react-native';
+import {Platform} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
@@ -7,7 +7,7 @@ import Constants from 'expo-constants';
 
 // Import all Components
 import {purple, white} from '../utils/colors';
-import {FontAwesome, AntDesign, Ionicons} from '@expo/vector-icons';
+import {FontAwesome, AntDesign} from '@expo/vector-icons';
 
 // Import all Screens/Views
 import DeckList from '../views/DeckList';
@@ -15,6 +15,7 @@ import NewDeck from '../views/NewDeck';
 import Deck from '../views/Deck';
 import QuizHome from '../views/QuizHome';
 import AddCard from '../views/AddCard';
+import Score from '../views/Score';
 
 const Tab =
   Platform.OS === 'android'
@@ -168,8 +169,24 @@ const StackScreenConfigs = {
         textAlign: 'center',
       },
       headerTitleAlign: 'center',
-      headerBackTitleVisible: false,
       title: 'Quiz',
+    },
+  },
+  Score: {
+    name: 'Score',
+    component: Score,
+    options: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+        height: Constants.statusBarHeight + 10,
+      },
+      headerTitleStyle: {
+        fontSize: 22,
+        textAlign: 'center',
+      },
+      headerTitleAlign: 'center',
+      title: 'Score',
     },
   },
 };
@@ -183,6 +200,7 @@ const AppNavigation = () => (
     <Stack.Screen {...StackScreenConfigs.AddCard} />
     <Stack.Screen {...StackScreenConfigs.NewDeck} />
     <Stack.Screen {...StackScreenConfigs.QuizHome} />
+    <Stack.Screen {...StackScreenConfigs.Score} />
   </Stack.Navigator>
 );
 

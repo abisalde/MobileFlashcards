@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Animated} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   gray,
@@ -11,8 +11,9 @@ import {
 } from '../utils/colors';
 import TextButton from '../components/TextButton';
 import Button from '../components/Button';
+import {clearLocalNotification, setLocalNotification} from '../utils/helpers';
 
-const QuizHome = ({route}) => {
+const QuizHome = ({route, navigation}) => {
   const dispatch = useDispatch();
   const decks = useSelector(decks => decks);
 
@@ -20,49 +21,16 @@ const QuizHome = ({route}) => {
   const deck = decks[id];
   const questions = deck?.questions;
 
-  // Animated Flip starts here
-  const animatedValue = new Animated.Value(0);
-  const frontInterpolate = animatedValue.interpolate({
-    inputRange: [0, 180],
-    outputRange: ['0deg', '180deg'],
-  });
-  const backInterpolate = animatedValue.interpolate({
-    inputRange: [0, 180],
-    outputRange: ['180deg', '360deg'],
-  });
-  let val = 0;
-
-  animatedValue.addListener(({value}) => {
-    val = value;
-  });
-
-  const frontAnimatedStyle = {
-    transform: [{rotateY: frontInterpolate}],
+  // SET ROUTE HEADER
+  const setTitle = id => {
+    navigation.setOptions({title: id});
   };
 
-  const backAnimatedStyle = {
-    transform: [{rotateY: backInterpolate}],
-  };
+  useEffect(() => {
+    setTitle(`${route.params?.id} Quiz`);
+  });
 
-  const FlipCard = () => {
-    if (val >= 90) {
-      Animated.spring(animatedValue, {
-        toValue: 0,
-        friction: 8,
-        tension: 10,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.spring(animatedValue, {
-        toValue: 180,
-        friction: 8,
-        tension: 10,
-        useNativeDriver: true,
-      }).start();
-    }
-  };
-  // Animated Flip ends here
-
+  // SET DECK WITHOUT A CARD TO DISPLAY OR QUESTIONS
   if (questions?.length === 0) {
     return (
       <View
@@ -79,51 +47,106 @@ const QuizHome = ({route}) => {
     );
   }
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // SET STATE FOR QUESTION AND ANSWER
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [count, setCount] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [disabledButtons, setDisabledButtons] = useState(false);
   const [showAnswer, setShowAnswer] = useState(true);
   const [nextQuestion, setNextQuestion] = useState(true);
 
-  const onPressHandler = () => {};
+  // SET QUESTION FUNCTION
+  const markQuestion = isCorrect => {
+    setCorrectAnswers(isCorrect ? correctAnswers + 1 : correctAnswers);
+    setDisabledButtons(true);
+    setShowAnswer(false);
+    setNextQuestion(false);
+  };
+
+  // SET NEXT QUESTION FUNCTION
+  const nextQuestionHandler = () => {
+    setQuestionIndex(
+      questionIndex >= questions.length - 1 ? 0 : questionIndex + 1,
+    );
+    setCount(count + 1);
+    setShowAnswer(true);
+    setDisabledButtons(false);
+    setNextQuestion(true);
+  };
+
+  // SET RESET FUNCTION AND ROUTE TO SCORE VIEW
+  useEffect(() => {
+    const totalQuestion = questions?.length;
+
+    if (setQuestionIndex !== questionIndex) {
+      if (count >= totalQuestion) {
+        navigation.navigate('Score', {
+          id,
+          correctAnswers,
+          totalQuestion,
+        });
+        setQuestionIndex(0);
+        setCount(0);
+        setCorrectAnswers(0);
+        clearLocalNotification().then(setLocalNotification);
+      }
+    }
+  });
 
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.count}>1 of 2 questions</Text>
+        <Text style={styles.count}>
+          {questionIndex + 1} of {questions && questions?.length}{' '}
+          {questions?.length > 1 ? 'questions' : 'question'}
+        </Text>
       </View>
       <View style={styles.inner}>
         <View style={styles.flipContainer}>
-          <Animated.View style={[frontAnimatedStyle, styles.flipCard]}>
-            <Text style={[styles.question]}>Question</Text>
-            <TextButton onPress={() => FlipCard()} style={{fontSize: 12}}>
+          <View style={[styles.flipCard]}>
+            <Text style={[styles.question]}>
+              {questions && questions[questionIndex].question}
+            </Text>
+            <TextButton
+              disabled={showAnswer}
+              onPress={() =>
+                alert('Answer: ' + questions[questionIndex].answer)
+              }
+              style={{fontSize: 15, marginTop: 50}}>
               Show Answer
             </TextButton>
-          </Animated.View>
-          <Animated.View
-            style={[backAnimatedStyle, styles.flipCard, styles.flipBack]}>
-            <Text style={[styles.answer]}>Answer</Text>
-            <TextButton onPress={() => FlipCard()} style={{fontSize: 12}}>
+          </View>
+          <View style={[styles.flipCard]}>
+            <Text style={[styles.answer]}>
+              {questions && questions[questionIndex].answer}
+            </Text>
+            <TextButton
+              disabled={showAnswer}
+              onPress={() =>
+                alert('Question: ' + questions[questionIndex].question)
+              }
+              style={{fontSize: 15, marginTop: 50}}>
               Show Question
             </TextButton>
-          </Animated.View>
+          </View>
         </View>
         <View style={styles.btnContainer}>
           <Button
-            onPress={() => alert('Correct')}
+            onPress={() => markQuestion(true)}
+            disabled={disabledButtons}
             btnStyle={{backgroundColor: green, borderColor: green}}>
             Correct
           </Button>
           <Button
-            onPress={() => alert('InCorrect')}
+            onPress={() => markQuestion(false)}
+            disabled={disabledButtons}
             btnStyle={{backgroundColor: red, borderColor: red}}>
             InCorrect
           </Button>
           <View style={{marginTop: 30}}>
-            <Text>{JSON.stringify(questions)}</Text>
             <TextButton
-              onPress={() => alert('Next')}
+              onPress={() => nextQuestionHandler()}
+              disabled={nextQuestion}
               style={{
                 textAlign: 'right',
                 paddingRight: 50,
@@ -168,13 +191,6 @@ const styles = StyleSheet.create({
   count: {
     fontSize: 20,
     color: gray,
-  },
-  flipCard: {
-    backfaceVisibility: 'hidden',
-  },
-  flipBack: {
-    position: 'absolute',
-    top: 0,
   },
 });
 

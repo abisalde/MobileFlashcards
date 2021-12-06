@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import {StyleSheet, SafeAreaView} from 'react-native';
 import {loadAllDecks} from '../redux/actions';
 import DeckBox from '../components/DeckBox';
 
 const DeckList = ({navigation}) => {
   useEffect(() => {
     dispatch(loadAllDecks());
-  }, [dispatch]);
+  });
 
   const dispatch = useDispatch();
   const decks = useSelector(decks => decks);

@@ -8,3 +8,4 @@ export const purple = '#242164';
 export const lightGray = '#D3D3D3';
 export const lightPurple = '#7c53c3';
 export const black = '#24292f';
+export const muted = '#57606a';
