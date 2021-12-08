@@ -1,4 +1,4 @@
-import {getDecks} from '../../utils/API';
+import {getDecks, removeDeck} from '../../utils/API';
 import {GET_DECKS, ADD_DECK, ADD_CARD, REMOVE_DECK} from './types';
 
 export const handleGetDecks = decks => {
@@ -23,10 +23,18 @@ export const handleAddCard = (deckId, card) => {
   };
 };
 
-export const handleRemoveDeck = id => {
+const deleteDeck = id => {
   return {
     type: REMOVE_DECK,
     id,
+  };
+};
+
+export const handleRemoveDeck = id => {
+  return dispatch => {
+    return removeDeck(id)
+      .then(() => dispatch(deleteDeck(id)))
+      .catch(err => console.log(err));
   };
 };
 

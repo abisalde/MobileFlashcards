@@ -5,11 +5,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const getDecks = async () => {
   try {
     const decksJSON = await AsyncStorage.getItem(DECKS_STORAGE_KEY);
-    if (decksJSON !== null) {
-      return JSON.parse(decksJSON);
-    } else {
+    if (decksJSON === null) {
       return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(decks));
     }
+    return decksJSON === null ? decks : JSON.parse(decksJSON);
   } catch (error) {
     console.log('getDecks error: ', error);
   }

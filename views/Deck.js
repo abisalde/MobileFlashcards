@@ -6,7 +6,6 @@ import {lightGreen, black} from '../utils/colors';
 import TextButton from '../components/TextButton';
 import {useSelector, useDispatch} from 'react-redux';
 import {handleRemoveDeck} from '../redux/actions';
-import {removeDeck} from '../utils/API';
 
 const Deck = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -27,9 +26,6 @@ const Deck = ({navigation, route}) => {
 
   const deleteDeck = id => {
     dispatch(handleRemoveDeck(id));
-
-    removeDeck(id);
-
     navigation.navigate('AppHome', {screen: 'DeckList'});
   };
 

@@ -3,13 +3,15 @@ import {useSelector, useDispatch} from 'react-redux';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import {loadAllDecks} from '../redux/actions';
 import DeckBox from '../components/DeckBox';
+import {lightGreen} from '../utils/colors';
 
 const DeckList = ({navigation}) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(loadAllDecks());
-  });
+  }, [dispatch]);
 
-  const dispatch = useDispatch();
   const decks = useSelector(decks => decks);
 
   return (
@@ -32,6 +34,7 @@ const DeckList = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: lightGreen,
   },
 });
 

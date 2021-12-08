@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Animated} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   gray,
@@ -64,10 +64,14 @@ const QuizHome = ({route, navigation}) => {
   };
 
   // SET NEXT QUESTION FUNCTION
+
   const nextQuestionHandler = () => {
-    setQuestionIndex(
-      questionIndex >= questions.length - 1 ? 0 : questionIndex + 1,
-    );
+    setQuestionIndex(questionIndex => {
+      if (questionIndex + 1 >= questions.length) {
+        return 0;
+      }
+      return questionIndex + 1;
+    });
     setCount(count + 1);
     setShowAnswer(true);
     setDisabledButtons(false);
@@ -91,7 +95,66 @@ const QuizHome = ({route, navigation}) => {
         clearLocalNotification().then(setLocalNotification);
       }
     }
+  }, [
+    questionIndex,
+    setQuestionIndex,
+    questions.length,
+    count,
+    id,
+    navigation,
+    correctAnswers,
+  ]);
+
+  // ANIMATED FLIP FUNCTIONS
+  const animatedValue = new Animated.Value(0);
+  const frontInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['0deg', '180deg'],
   });
+  const backInterpolate = animatedValue.interpolate({
+    inputRange: [0, 180],
+    outputRange: ['180deg', '360deg'],
+  });
+
+  let ref = React.useRef(0).current;
+
+  React.useEffect(() => {
+    animatedValue;
+    frontInterpolate;
+    backInterpolate;
+    animatedValue.addListener(
+      ({value}) => {
+        ref = value;
+      },
+      [ref, frontInterpolate, backInterpolate],
+    );
+  });
+
+  const frontAnimatedStyle = {
+    transform: [{rotateY: frontInterpolate}],
+  };
+
+  const backAnimatedStyle = {
+    transform: [{rotateY: backInterpolate}],
+  };
+
+  const FlipCard = () => {
+    if (ref >= 90) {
+      Animated.spring(animatedValue, {
+        toValue: 0,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.spring(animatedValue, {
+        toValue: 180,
+        friction: 8,
+        tension: 10,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -103,32 +166,29 @@ const QuizHome = ({route, navigation}) => {
       </View>
       <View style={styles.inner}>
         <View style={styles.flipContainer}>
-          <View style={[styles.flipCard]}>
+          <Animated.View style={[frontAnimatedStyle, styles.flipCard]}>
             <Text style={[styles.question]}>
-              {questions && questions[questionIndex].question}
+              {questions[questionIndex].question}
             </Text>
             <TextButton
               disabled={showAnswer}
-              onPress={() =>
-                alert('Answer: ' + questions[questionIndex].answer)
-              }
+              onPress={() => FlipCard()}
               style={{fontSize: 15, marginTop: 50}}>
               Show Answer
             </TextButton>
-          </View>
-          <View style={[styles.flipCard]}>
+          </Animated.View>
+          <Animated.View
+            style={[backAnimatedStyle, styles.flipCard, styles.flipBack]}>
             <Text style={[styles.answer]}>
-              {questions && questions[questionIndex].answer}
+              {questions[questionIndex].answer}
             </Text>
             <TextButton
               disabled={showAnswer}
-              onPress={() =>
-                alert('Question: ' + questions[questionIndex].question)
-              }
+              onPress={() => FlipCard()}
               style={{fontSize: 15, marginTop: 50}}>
               Show Question
             </TextButton>
-          </View>
+          </Animated.View>
         </View>
         <View style={styles.btnContainer}>
           <Button
@@ -191,6 +251,13 @@ const styles = StyleSheet.create({
   count: {
     fontSize: 20,
     color: gray,
+  },
+  flipBack: {
+    position: 'absolute',
+    top: 0,
+  },
+  flipCard: {
+    backfaceVisibility: 'hidden',
   },
 });
 

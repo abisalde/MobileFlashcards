@@ -12,10 +12,11 @@ const CardFlip = () => {
     inputRange: [0, 180],
     outputRange: ['180deg', '360deg'],
   });
-  let val = 0;
+
+  let ref = React.useRef(0).current;
 
   animatedValue.addListener(({value}) => {
-    val = value;
+    ref = value;
   });
 
   const frontAnimatedStyle = {
@@ -90,7 +91,7 @@ const CardFlip = () => {
   */
 
   const FlipCard = () => {
-    if (val >= 90) {
+    if (ref >= 90) {
       Animated.spring(animatedValue, {
         toValue: 0,
         friction: 8,
