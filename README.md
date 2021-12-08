@@ -35,7 +35,7 @@ Expo Snack: [Mobile Flashcards](https://snack.expo.dev/@abisalde/mobileflashcard
 
 ## Author
 
-- [Isaiah Abiodun](https://linkedin.com/in/abisalde)
+- [Isaiah Abiodun](https://linkedin.com/in/abisalde) - Software Engineer working with JavaScript
 
 ## Tech Stack
 
@@ -45,6 +45,14 @@ Expo Snack: [Mobile Flashcards](https://snack.expo.dev/@abisalde/mobileflashcard
 - [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
 - [Expo Modules](https://docs.expo.dev/bare/installing-expo-modules/)
 
+## Backend Server
+
+- AsyncStorage is used to store the decks and their flashcards.
+
 ## Screenshot
 
 ![MobileFlashcards](https://i.imgur.com/p5p54T8.jpg)
+
+## Create React Native App
+
+This project was bootstrapped using [Create React Native App](https://reactnative.dev/docs/getting-started) and [Expo Modules](https://docs.expo.dev/bare/installing-expo-modules/)
