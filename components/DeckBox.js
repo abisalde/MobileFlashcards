@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View, Text, StyleSheet, Platform, TouchableOpacity} from 'react-native';
 import {white, textColor, gray} from '../utils/colors';
 
@@ -58,5 +59,12 @@ const styles = StyleSheet.create({
     color: gray,
   },
 });
+
+DeckBox.propTypes = {
+  style: PropTypes.object,
+  id: PropTypes.string.isRequired,
+  questions: PropTypes.array.isRequired,
+  onPress: PropTypes.func,
+};
 
 export default DeckBox;

@@ -19,7 +19,7 @@ In this application, users will be able to:
 
 ## Demo
 
-    Live Demo: [Mobile Flashcards](https://snack.expo.dev/@abisalde/mobileflashcards)
+Expo Snack: [Mobile Flashcards](https://snack.expo.dev/@abisalde/mobileflashcards)
 
 ## Installation
 
@@ -35,11 +35,16 @@ In this application, users will be able to:
 
 ## Author
 
-    - [Isaiah Abiodun](https://linkedin.com/in/abisalde)
+- [Isaiah Abiodun](https://linkedin.com/in/abisalde)
 
 ## Tech Stack
 
-    - [React Native@0.66.3](https://reactnative.dev/)
-    - [Redux@4.1.2](https://redux.js.org/)
-    - [React Navigation@6.0.6](https://reactnavigation.org/)
-    - [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
+- [React Native@0.66.3](https://reactnative.dev/)
+- [Redux@4.1.2](https://redux.js.org/)
+- [React Navigation@6.0.6](https://reactnavigation.org/)
+- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
+- [Expo Modules](https://docs.expo.dev/bare/installing-expo-modules/)
+
+## Screenshot
+
+![MobileFlashcards](https://i.imgur.com/p5p54T8.jpg)

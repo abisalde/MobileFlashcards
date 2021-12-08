@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -64,14 +64,10 @@ const QuizHome = ({route, navigation}) => {
   };
 
   // SET NEXT QUESTION FUNCTION
-
   const nextQuestionHandler = () => {
-    setQuestionIndex(questionIndex => {
-      if (questionIndex + 1 >= questions.length) {
-        return 0;
-      }
-      return questionIndex + 1;
-    });
+    setQuestionIndex(
+      questionIndex >= questions.length - 1 ? 0 : questionIndex + 1,
+    );
     setCount(count + 1);
     setShowAnswer(true);
     setDisabledButtons(false);
@@ -107,28 +103,25 @@ const QuizHome = ({route, navigation}) => {
 
   // ANIMATED FLIP FUNCTIONS
   const animatedValue = new Animated.Value(0);
-  const frontInterpolate = animatedValue.interpolate({
+  let frontInterpolate = animatedValue.interpolate({
     inputRange: [0, 180],
     outputRange: ['0deg', '180deg'],
   });
-  const backInterpolate = animatedValue.interpolate({
+  let backInterpolate = animatedValue.interpolate({
     inputRange: [0, 180],
     outputRange: ['180deg', '360deg'],
   });
 
-  let ref = React.useRef(0).current;
+  let ref = useRef(0).current;
 
-  React.useEffect(() => {
+  useEffect(() => {
     animatedValue;
+    animatedValue.addListener(({value}) => {
+      ref = value;
+    });
     frontInterpolate;
     backInterpolate;
-    animatedValue.addListener(
-      ({value}) => {
-        ref = value;
-      },
-      [ref, frontInterpolate, backInterpolate],
-    );
-  });
+  }, [ref, frontInterpolate, backInterpolate]);
 
   const frontAnimatedStyle = {
     transform: [{rotateY: frontInterpolate}],
@@ -168,7 +161,7 @@ const QuizHome = ({route, navigation}) => {
         <View style={styles.flipContainer}>
           <Animated.View style={[frontAnimatedStyle, styles.flipCard]}>
             <Text style={[styles.question]}>
-              {questions[questionIndex].question}
+              {questions[questionIndex]?.question}
             </Text>
             <TextButton
               disabled={showAnswer}
@@ -180,7 +173,7 @@ const QuizHome = ({route, navigation}) => {
           <Animated.View
             style={[backAnimatedStyle, styles.flipCard, styles.flipBack]}>
             <Text style={[styles.answer]}>
-              {questions[questionIndex].answer}
+              {questions[questionIndex]?.answer}
             </Text>
             <TextButton
               disabled={showAnswer}
@@ -233,11 +226,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     color: textColor,
+    textAlign: 'center',
   },
   answer: {
     fontSize: 25,
     fontWeight: 'bold',
     color: textColor,
+    textAlign: 'center',
   },
   inner: {
     flex: 1,

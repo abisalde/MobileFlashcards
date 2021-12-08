@@ -66,11 +66,3 @@ export const addCardToDeck = async (title, card) => {
     console.log('addCardToDeck error: ', error);
   }
 };
-
-export const clearDecks = async () => {
-  try {
-    await AsyncStorage.removeItem(DECKS_STORAGE_KEY);
-  } catch (error) {
-    console.log('clearDecks error: ', error);
-  }
-};

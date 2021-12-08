@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -132,5 +133,17 @@ const styles = StyleSheet.create({
     borderRadius: Platform.OS === 'ios' ? 9 : 4,
   },
 });
+
+AddCard.propTypes = {
+  navigation: PropTypes.shape({
+    goBack: PropTypes.func.isRequired,
+    setOptions: PropTypes.func.isRequired,
+  }),
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      title: PropTypes.string,
+    }),
+  }),
+};
 
 export default AddCard;

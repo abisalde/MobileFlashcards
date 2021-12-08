@@ -16,7 +16,6 @@ import FlashcardStatusBar from './components/FlashcardsStatusBar';
 import {purple} from './utils/colors';
 import AppNavigation from './navigation';
 import {setLocalNotification} from './utils/helpers';
-import CardFlip from './components/CardFlip';
 
 const App = () => {
   useEffect(() => {

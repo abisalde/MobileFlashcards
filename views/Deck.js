@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import PropTypes from 'prop-types';
+import {View, StyleSheet} from 'react-native';
 import DeckBox from '../components/DeckBox';
 import Button from '../components/Button';
 import {lightGreen, black} from '../utils/colors';
@@ -66,4 +67,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Deck);
+Deck.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    setOptions: PropTypes.func.isRequired,
+  }),
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+    }),
+  }),
+};
+
+export default Deck;

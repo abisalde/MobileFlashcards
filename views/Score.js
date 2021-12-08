@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {View, Text, StyleSheet} from 'react-native';
 import Button from '../components/Button';
 import {
@@ -81,4 +82,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+Score.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      correctAnswers: PropTypes.number.isRequired,
+      totalQuestion: PropTypes.number.isRequired,
+    }),
+  }),
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }),
+};
+
 export default Score;

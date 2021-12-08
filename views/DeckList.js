@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {useSelector, useDispatch} from 'react-redux';
 import {StyleSheet, SafeAreaView} from 'react-native';
 import {loadAllDecks} from '../redux/actions';
@@ -37,5 +38,9 @@ const styles = StyleSheet.create({
     backgroundColor: lightGreen,
   },
 });
+
+DeckList.propTypes = {
+  navigation: PropTypes.object.isRequired,
+};
 
 export default DeckList;
