@@ -8,13 +8,20 @@
 import 'react-native-gesture-handler';
 import React, {useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
 
+// redux store
 import {Provider} from 'react-redux';
 import store from './redux/store';
+
+// Status Bar
 import FlashcardStatusBar from './components/FlashcardsStatusBar';
 import {purple} from './utils/colors';
+
+// Navigation
 import AppNavigation from './navigation';
+import {NavigationContainer} from '@react-navigation/native';
+
+// Local Notification
 import {setLocalNotification} from './utils/helpers';
 
 const App = () => {
