@@ -23,12 +23,14 @@ const createNotification = () => {
   };
 };
 
+// Clear Local Notification
 export const clearLocalNotification = () => {
   return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
     Notifications.cancelAllScheduledNotificationsAsync,
   );
 };
 
+// Set Local Notification
 export const setLocalNotification = () => {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
