@@ -2,10 +2,8 @@
 
 Mobile flashcard is a React Native App for both iOS and Android which allows users to create different categories of flashcards called "decks", add flashcards to these decks, and then study these decks by quizzing themselves.
 
-This app is tested on both iOS and Android Platforms.
-
-- For iOS, it is tested on the latest version of iOS with iPhone 12
-- For Android, it is tested on the latest version of Android with Pixel 5_API_29
+- For Android, it is tested on the latest version of Android with Pixel 5_API_29 using the Android Studio Emulator on the local machine
+- For iOS, it is tested on the latest version of iOS with iPhone 12 [here](https://snack.expo.dev/@abisalde/mobileflashcards)
 
 It is also tested on the latest version of React Native `0.66.3`, React Navigation `v6`, Expo, and Redux.
 
